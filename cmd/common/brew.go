@@ -23,7 +23,7 @@ func brewList(formula string) bool {
 	return true
 }
 
-func brewInstall(formulaReadableName string, formula string, tapValue string, cask string, cmdArgs string) {
+func BrewInstall(formulaReadableName string, formula string, tapValue string, cask string, cmdArgs string) {
 
 	// Check if `Homebrew` is installed.
 	if !CmdExists("brew") {

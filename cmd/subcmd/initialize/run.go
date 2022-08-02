@@ -3,6 +3,8 @@ package initialize
 import (
 	"fmt"
 	"log"
+
+	"github.com/shunk031/dotfiles/cmd/common"
 )
 
 func runInitMacOs() error {
@@ -11,18 +13,19 @@ func runInitMacOs() error {
 		log.Fatal(err)
 	}
 
-	arch := getCpuArch()
+	arch := common.GetCpuArch()
 	if arch == "x86_64" {
 		return runInitMacOsAmd64()
 	} else if arch == "arm64" {
 		return runInitMacOsArm64()
+
 	} else {
 		return fmt.Errorf("Invalid CPU architecture: %s", arch)
 	}
 }
 
 func RunInitCmd() error {
-	os, err := getOs()
+	os, err := common.GetOs()
 	if err != nil {
 		log.Fatal(err)
 	}

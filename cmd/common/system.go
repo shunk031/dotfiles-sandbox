@@ -1,6 +1,7 @@
 package common
 
 import (
+	"errors"
 	"fmt"
 	"log"
 	"os"
@@ -27,6 +28,26 @@ func GetDotPath() (string, error) {
 		return dotPath, nil
 	} else {
 		return "", fmt.Errorf("Need to specify DOTPATH")
+	}
+}
+
+func Mkd(p string) {
+	if len(p) > 0 {
+		fInfo, err := os.Stat(p)
+		if err != nil {
+			log.Fatal(err)
+		} else if errors.Is(err, os.ErrNotExist) {
+			msg := p
+			cmd := fmt.Sprintf("mkdir -p %s", p)
+			err := Execute(msg, cmd)
+			if err != nil {
+				log.Fatal(err)
+			}
+		} else {
+			if !!fInfo.IsDir() {
+				printError(fmt.Errorf("%s - a file with the same name already exists", p))
+			}
+		}
 	}
 }
 
@@ -69,13 +90,14 @@ func CmdExists(c string) bool {
 
 func extract(archive string, outputDir string) error {
 
-	var err error
 	if CmdExists("tar") {
 		msg := fmt.Sprintf("Extract from %s", archive)
 		cmd := fmt.Sprintf("tar -zxf %s --strip-components 1 -C %s", archive, outputDir)
-		err = Execute(msg, cmd)
+		return Execute(msg, cmd)
+	} else {
+		return fmt.Errorf("Command not found: tar")
 	}
-	return err
+
 }
 
 func readOsRelease(cfgFile string) map[string]string {
@@ -94,7 +116,7 @@ func getLinuxDistribution() string {
 	return osInfo["ID"]
 }
 
-func getOs() (string, error) {
+func GetOs() (string, error) {
 	kernelName := runtime.GOOS
 	if kernelName == "darwin" {
 		return "macos", nil
@@ -105,7 +127,7 @@ func getOs() (string, error) {
 	}
 }
 
-func getCpuArch() string {
+func GetCpuArch() string {
 	out, err := exec.Command("uname", "-m").Output()
 	if err != nil {
 		log.Fatal(err)

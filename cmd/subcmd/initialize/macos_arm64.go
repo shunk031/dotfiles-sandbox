@@ -1,5 +1,12 @@
+//go:build arm64
+
 package initialize
 
-func runInitMacOsArm64() error {
+import "fmt"
 
+// https://qiita.com/ueokande/items/fac0d1219dbbc8f44db7 みたいなことをやって、アーキテクチャごとに変える
+
+func runInitMacOsArm64() error {
+	fmt.Println("Run initialization for MacOS arm64")
+	return nil
 }

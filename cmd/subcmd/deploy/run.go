@@ -15,14 +15,6 @@ func runDeployCommon() error {
 	return runDeploy("common")
 }
 
-func runDeployClient() error {
-	return runDeploy("client")
-}
-
-func runDeployServer() error {
-	return runDeploy("server")
-}
-
 func runDeploy(dotFileType string) error {
 
 	dotPath, err := common.GetDotPath()
@@ -45,7 +37,7 @@ func runDeploy(dotFileType string) error {
 
 		msg := fmt.Sprintf("%s -> %s", dstDotFilePath, srcDotFilePath)
 		cmd := fmt.Sprintf("ln -sfnv %s %s", srcDotFilePath, dstDotFilePath)
-		err := Execute(msg, cmd)
+		err := common.Execute(msg, cmd)
 
 		if err != nil {
 			log.Fatal(err)
@@ -60,7 +52,7 @@ func RunDeployCmd() error {
 		os.Exit(1)
 	}
 
-	printInPurple("\n• Create symbolic links\n")
+	common.PrintInPurple("\n• Create symbolic links\n")
 
 	err := runDeployCommon()
 	if err != nil {

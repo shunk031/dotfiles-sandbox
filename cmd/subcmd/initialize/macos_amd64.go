@@ -1,5 +1,10 @@
+//go:build amd64
+
 package initialize
 
-func runInitMacOsAmd64() error {
+import "fmt"
 
+func runInitMacOsAmd64() error {
+	fmt.Println("Run initialization for MacOS amd64")
+	return nil
 }
