@@ -6,7 +6,7 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
-func TestMecab(t *testing.T) {
+func TestInstallMecab(t *testing.T) {
 
 	// firstly, uninstall mecab-ipadic. Then, uninstall mecab
 	common.BrewUninstall("mecab-ipadic", "mecab-ipadic")
