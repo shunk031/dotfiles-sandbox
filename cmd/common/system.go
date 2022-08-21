@@ -51,7 +51,7 @@ func Mkd(p string) {
 	}
 }
 
-func execute(cmd string) error {
+func ExecuteCmd(cmd string) error {
 
 	if !isDebug() {
 		c := exec.Command("/bin/bash", "-c", cmd)
@@ -71,7 +71,7 @@ func Execute(msg string, cmd string) error {
 	s.Suffix = fmt.Sprintf("] %s", cmd)
 
 	s.Start()
-	err := execute(cmd)
+	err := ExecuteCmd(cmd)
 	s.Stop()
 
 	printResult(msg, err)

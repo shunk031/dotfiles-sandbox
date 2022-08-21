@@ -20,7 +20,7 @@ func installXCode() {
 
 	if !isXCodeInstalled() {
 		cmd := "open macappstores://itunes.apple.com/en/app/xcode/id497799835"
-		err := execute(cmd)
+		err := common.ExecuteCmd(cmd)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -34,7 +34,7 @@ func installXCode() {
 }
 
 func optOutOfAnalytics() {
-	err := execute("brew analytics off")
+	err := common.ExecuteCmd("brew analytics off")
 	common.PrintResult("Homebrew (opt-out of analytics)", err)
 	if err != nil {
 		log.Fatal(err)
@@ -47,7 +47,7 @@ func installHomebrew() {
 	if !common.CmdExists("brew") {
 		cmd := `printf "\n" | /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
 		//        └─ simulate the ENTER keypress
-		err := execute(cmd)
+		err := common.ExecuteCmd(cmd)
 		common.PrintResult("Homebrew", err)
 		if err != nil {
 			log.Fatal(err)
