@@ -11,7 +11,8 @@ import (
 
 func InstallIterm2() {
 	common.PrintInPurple("\n   Install iTerm2\n\n")
-	common.BrewInstall("iterm2", "iterm2", "homebrew/cask", "cask", "")
+
+	common.BrewInstall("iterm2", "iterm2", common.BrewOpts{TapValue: "homebrew/cask", Cask: "cask"})
 
 	msg := "Open the app so the preference files get initialized."
 	cmd := "open -g \"/Applications/iTerm.app\" && sleep 2"

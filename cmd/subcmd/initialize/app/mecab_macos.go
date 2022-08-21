@@ -8,8 +8,8 @@ func InstallMecab() {
 	common.PrintInPurple("\n   Install mecab\n\n")
 
 	// install mecab
-	common.BrewInstall("mecab", "mecab", "", "", "")
+	common.BrewInstall("mecab", "mecab", common.BrewOpts{})
 
 	// install mecab-ipadic
-	common.BrewInstall("mecab-ipadic", "mecab-ipadic", "", "", "")
+	common.BrewInstall("mecab-ipadic", "mecab-ipadic", common.BrewOpts{})
 }

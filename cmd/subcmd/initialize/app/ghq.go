@@ -9,6 +9,6 @@ import (
 
 func InstallGhq() {
 	common.PrintInPurple("\n   Install ghq\n\n")
-	common.BrewInstall("ghq", "ghq", "", "", "")
+	common.BrewInstall("ghq", "ghq", common.BrewOpts{})
 	common.Mkd(filepath.Join(os.Getenv("HOME"), "ghq"))
 }
