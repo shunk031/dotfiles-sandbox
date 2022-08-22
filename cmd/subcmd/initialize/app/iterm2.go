@@ -10,7 +10,7 @@ import (
 )
 
 func InstallIterm2() {
-	common.PrintInPurple("\n   Install iTerm2\n\n")
+	common.PrintInPurple("\n   Install iTerm2\n")
 
 	common.BrewInstall("iterm2", "iterm2", common.BrewOpts{TapValue: "homebrew/cask", Cask: "cask"})
 
@@ -31,7 +31,7 @@ func InstallIterm2() {
 
 	msg = fmt.Sprintf("Create symbolic link from %s to %s", srcJsonPath, dstJsonPath)
 	cmd = fmt.Sprintf("ln -sfn %s %s", srcJsonPath, dstJsonPath)
-	fmt.Println(cmd)
+
 	err = common.Execute(msg, cmd)
 	if err != nil {
 		log.Fatal(err)

@@ -5,10 +5,29 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"os/exec"
 	"path/filepath"
 
 	"github.com/shunk031/dotfiles/cmd/common"
 )
+
+func isMecabIpadicNeologdExists() bool {
+	cmd := exec.Command("/bin/bash", "-c", "echo `mecab-config --dicdir`/mecab-ipadic-neologd")
+	out, err := cmd.Output()
+	if err != nil {
+		log.Fatal(err)
+	}
+	neologdPath := string(out)
+	fmt.Println(neologdPath)
+
+	if _, err := os.Stat(neologdPath); os.IsNotExist(err) {
+		// fmt.Println(f.IsDir())
+		fmt.Println(err)
+		return false
+	} else {
+		return true
+	}
+}
 
 func cloneMecabIpadicNeologd(url string, dir string) error {
 	cmd := fmt.Sprintf("git clone --quiet --depth 1 %s %s", url, dir)

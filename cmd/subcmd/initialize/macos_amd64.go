@@ -2,9 +2,19 @@
 
 package initialize
 
-import "fmt"
+import (
+	"github.com/shunk031/dotfiles/cmd/subcmd/initialize/app"
+)
 
-func runInitMacOsAmd64() error {
-	fmt.Println("Run initialization for MacOS amd64")
+func runInitMacOsArch() error {
+
+	app.InstallIterm2()
+	app.InstallTmux()
+
+	app.InstallMecab()
+	app.InstallMecabIpadicNeologd()
+
+	app.InstallPowerlevel10kRequirements()
+
 	return nil
 }

@@ -2,10 +2,6 @@ package main
 
 import (
 	"fmt"
-	"os"
-	"path/filepath"
-
-	"github.com/shunk031/dotfiles/cmd/common"
 )
 
 const dotfilesLogo = `
@@ -33,15 +29,15 @@ const (
 )
 
 func main() {
-	var (
-		// DotfilesOrigin     = "git@github.com:" + repository + ".git"
-		DotfilesDirectory  = filepath.Join(os.Getenv("HOME"), ".dotfiles")
-		DotfilesTarballURL = filepath.Join("https://github.com", repository, "tarball/master")
-		IsSkipQuestions    = true
-	)
+	// var (
+	// 	DotfilesOrigin     = "git@github.com:" + repository + ".git"
+	// 	DotfilesDirectory  = filepath.Join(os.Getenv("HOME"), ".dotfiles")
+	// 	DotfilesTarballURL = filepath.Join("https://github.com", repository, "tarball/master")
+	// 	IsSkipQuestions    = true
+	// )
 
 	ShowLogo()
-	common.DownloadDotfiles(DotfilesDirectory, DotfilesTarballURL, IsSkipQuestions)
+	// common.DownloadDotfiles(DotfilesDirectory, DotfilesTarballURL, IsSkipQuestions)
 	RunSubcommand()
 
 }

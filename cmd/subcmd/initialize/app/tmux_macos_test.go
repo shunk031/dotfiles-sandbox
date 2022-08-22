@@ -1,4 +1,4 @@
-//go:build macos
+//+build macos
 
 package app
 

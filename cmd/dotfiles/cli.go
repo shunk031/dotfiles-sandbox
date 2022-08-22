@@ -14,7 +14,8 @@ import (
 )
 
 func RunSubcommand() {
-	if len(os.Args) < 1 {
+
+	if len(os.Args) < 2 {
 		fmt.Println("Expected `init`, `deploy`, `update`, `local`, `clean`, `install` subcommands")
 		os.Exit(1)
 	}
