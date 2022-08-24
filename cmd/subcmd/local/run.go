@@ -1,6 +1,8 @@
 package local
 
-import "fmt"
+import (
+	"fmt"
+)
 
 func RunLocalCmd() error {
 	fmt.Println("Local")
