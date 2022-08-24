@@ -2,7 +2,6 @@ package app
 
 import (
 	"errors"
-	"fmt"
 	"log"
 	"os"
 	"path/filepath"
@@ -20,7 +19,6 @@ func TestInstallIterm2(t *testing.T) {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf("DOTPATH: %s\n", os.Getenv("DOTPATH"))
 	InstallIterm2()
 
 	itermAppPath := filepath.Join("/Applications", "iTerm.app")
@@ -29,7 +27,7 @@ func TestInstallIterm2(t *testing.T) {
 	}
 
 	profileJsonName := "hotkey_window.json"
-	profileJsonPath := filepath.Join(os.Getenv("HOME"), "Library", "Application\\ Support", "iTerm2", "DynamicProfiles", profileJsonName)
+	profileJsonPath := filepath.Join(os.Getenv("HOME"), "Library", "Application Support", "iTerm2", "DynamicProfiles", profileJsonName)
 	if _, err := os.Stat(profileJsonPath); errors.Is(err, os.ErrNotExist) {
 		t.Fatalf("Json file for dynamic profiles is not found in %s", profileJsonPath)
 	}

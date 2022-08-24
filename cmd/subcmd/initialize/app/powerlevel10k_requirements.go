@@ -17,7 +17,7 @@ func installNerdFont() {
 	common.BrewInstall("curl", "curl", common.BrewOpts{})
 
 	cmd := fmt.Sprintf("mkdir -p %s && cd %s && curl -fLo %s %s", fontDir, fontDir, fontName, fontURL)
-	fmt.Println(cmd)
+
 	msg := fmt.Sprintf("Install %s to %s", fontName, fontDir)
 	err := common.Execute(msg, cmd)
 	if err != nil {

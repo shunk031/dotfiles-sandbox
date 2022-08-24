@@ -32,5 +32,5 @@ func InstallGh() {
 	common.PrintInPurple("\n   Install gh\n")
 
 	installGh()
-	runGhAuthLogin()
+	// runGhAuthLogin()
 }
