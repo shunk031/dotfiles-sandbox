@@ -85,6 +85,6 @@ func TestRunDeploy(t *testing.T) {
 	// compare dotfiles in home directory and my dotfiles
 	numHomeDotFiles := len(homeDotFilePaths)
 	if numMyDotFiles != numHomeDotFiles {
-		t.Fatal("test failed")
+		t.Fatalf("# of my dotfiles is %d. But found %d", numMyDotFiles, numHomeDotFiles)
 	}
 }
