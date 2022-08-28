@@ -3,6 +3,7 @@
 package app
 
 import (
+	"fmt"
 	"os"
 	"path/filepath"
 
@@ -12,5 +13,8 @@ import (
 func InstallGhq() {
 	common.PrintInPurple("\n   Install ghq\n")
 	common.BrewInstall("ghq", "ghq", common.BrewOpts{})
-	common.Mkd(filepath.Join(os.Getenv("HOME"), "ghq"))
+
+	ghqDir := filepath.Join(os.Getenv("HOME"), "ghq")
+	cmd := fmt.Sprintf("mkdir -p %s", ghqDir)
+	common.ExecuteCmd(cmd)
 }
