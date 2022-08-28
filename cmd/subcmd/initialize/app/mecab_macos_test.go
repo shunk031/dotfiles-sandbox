@@ -11,8 +11,12 @@ import (
 func TestInstallMecab(t *testing.T) {
 
 	// firstly, uninstall mecab-ipadic. Then, uninstall mecab
-	common.BrewUninstall("mecab-ipadic", "mecab-ipadic")
-	common.BrewUninstall("mecab", "mecab")
+	if common.CmdExists("mecab") {
+		common.BrewUninstall("mecab-ipadic", "mecab-ipadic")
+	}
+	if common.BrewList("mecab-ipadic") {
+		common.BrewUninstall("mecab", "mecab")
+	}
 
 	InstallMecab()
 
