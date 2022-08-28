@@ -54,5 +54,5 @@ func RunDeployCmd() error {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return RunDeploySystem()
+	return runDeploySystem()
 }

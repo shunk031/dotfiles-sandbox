@@ -2,6 +2,6 @@
 
 package deploy
 
-func RunDeploySystem() error {
+func runDeploySystem() error {
 	return runDeploy("client")
 }

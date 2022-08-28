@@ -13,8 +13,9 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
-func TestRunDeploy(t *testing.T) {
-	RunDeploySystem()
+func TestRunDeploySystem(t *testing.T) {
+	runDeployCommon()
+	runDeploySystem()
 
 	dotPath, err := common.GetDotPath()
 	if err != nil {
