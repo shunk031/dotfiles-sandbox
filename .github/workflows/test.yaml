@@ -12,6 +12,8 @@ jobs:
         exclude:
           - os: macos-latest
             system: server
+          - os: ubuntu20.04
+            system: client
 
     runs-on: ${{ matrix.os }}
     steps:
