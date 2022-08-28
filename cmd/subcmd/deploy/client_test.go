@@ -2,7 +2,12 @@
 
 package deploy
 
-import "testing"
+import (
+	"io/ioutil"
+	"log"
+	"path/filepath"
+	"testing"
+)
 
 func TestRunDeploy(t *testing.T) {
 	RunDeploySystem()
