@@ -42,10 +42,6 @@ func runDeploy(dotFileType string) error {
 	return nil
 }
 
-func runDeployCommon() error {
-	return runDeploy("common")
-}
-
 func RunDeployCmd() error {
 
 	common.PrintInPurple("\n• Create symbolic links\n")
