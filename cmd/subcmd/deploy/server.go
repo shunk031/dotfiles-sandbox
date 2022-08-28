@@ -1,5 +1,7 @@
+//go:build server
+
 package deploy
 
-func runDeployServer() error {
+func RunDeploy() error {
 	return runDeploy("server")
 }

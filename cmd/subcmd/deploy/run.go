@@ -11,10 +11,6 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
-func runDeployCommon() error {
-	return runDeploy("common")
-}
-
 func runDeploy(dotFileType string) error {
 
 	dotPath, err := common.GetDotPath()
@@ -46,11 +42,11 @@ func runDeploy(dotFileType string) error {
 	return nil
 }
 
+func runDeployCommon() error {
+	return runDeploy("common")
+}
+
 func RunDeployCmd() error {
-	if len(os.Args) < 2 {
-		fmt.Println("Expected to specify client or server")
-		os.Exit(1)
-	}
 
 	common.PrintInPurple("\n• Create symbolic links\n")
 
@@ -58,13 +54,5 @@ func RunDeployCmd() error {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	machine := os.Args[2]
-	if machine == "client" {
-		return runDeployClient()
-	} else if machine == "server" {
-		return runDeployServer()
-	} else {
-		return fmt.Errorf("Invalid type: %s", machine)
-	}
+	return RunDeploy()
 }

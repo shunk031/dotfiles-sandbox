@@ -1,3 +1,5 @@
+//go:build macos
+
 package common
 
 import "testing"

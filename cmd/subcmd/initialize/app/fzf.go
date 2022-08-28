@@ -23,6 +23,7 @@ func installFzf(dir string) error {
 }
 
 func InstallFzf() {
+	common.PrintInPurple("\n   Install fzf\n")
 
 	fzfDir := filepath.Join(os.Getenv("HOME"), ".fzf")
 	fzfUrl := "https://github.com/junegunn/fzf.git"

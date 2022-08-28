@@ -1,4 +1,4 @@
-//go:build macos
+//go:build ubuntu
 
 package app
 
@@ -15,8 +15,8 @@ func TestInstallTmux(t *testing.T) {
 		t.Fatal("Command not found: tmux")
 	}
 
-	if !common.CmdExists("reattach-to-user-namespace") {
-		t.Fatal("Command not found: reattach-to-user-namespace")
+	if !common.CmdExists("xsel") {
+		t.Fatal("Command not found: xsel")
 	}
 
 	if !common.CmdExists("cmake") {

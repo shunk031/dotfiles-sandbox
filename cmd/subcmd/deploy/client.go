@@ -1,5 +1,7 @@
+//go:build client
+
 package deploy
 
-func runDeployClient() error {
+func RunDeploy() error {
 	return runDeploy("client")
 }
