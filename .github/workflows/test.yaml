@@ -19,21 +19,24 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Set up Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: 1.18
+      - name: Check
+        run: ls -al && pwd
 
-      - name: Test
-        env: 
-          DOTPATH: $(pwd)
-        run: |
-          if [ "$RUNNER_OS" == "Linux" ]; then
-            os="linux"
-          elif [ "$RUNNER_OS" == "macOS" ]; then
-            os="macos"
-          else
-            echo "$RUNNER_OS not supported"
-              exit 1
-          fi
-          go test -tags "$os",${{ matrix.arch }},${{ matrix.system }} -v ./...
+      # - name: Set up Go
+      #   uses: actions/setup-go@v3
+      #   with:
+      #     go-version: 1.18
+
+      # - name: Test
+      #   env: 
+      #     DOTPATH: $(pwd)
+      #   run: |
+      #     if [ "$RUNNER_OS" == "Linux" ]; then
+      #       os="linux"
+      #     elif [ "$RUNNER_OS" == "macOS" ]; then
+      #       os="macos"
+      #     else
+      #       echo "$RUNNER_OS not supported"
+      #         exit 1
+      #     fi
+      #     go test -tags "$os",${{ matrix.arch }},${{ matrix.system }} -v ./...
