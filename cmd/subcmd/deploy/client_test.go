@@ -5,7 +5,7 @@ package deploy
 import "testing"
 
 func TestRunDeploy(t *testing.T) {
-	RunDeploy()
+	RunDeploySystem()
 
 	dotPath, err := common.GetDotPath()
 	if err != nil {

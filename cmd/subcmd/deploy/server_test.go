@@ -14,7 +14,7 @@ import (
 )
 
 func TestRunDeploy(t *testing.T) {
-	RunDeploy()
+	RunDeploySystem()
 
 	dotPath, err := common.GetDotPath()
 	if err != nil {
