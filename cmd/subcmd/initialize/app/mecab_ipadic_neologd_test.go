@@ -1,13 +1,12 @@
 package app
 
 import (
-	"fmt"
 	"testing"
 )
 
 func TestInstallMecabIpadicNeologd(t *testing.T) {
 
-	fmt.Println(isMecabIpadicNeologdExists())
+	// fmt.Println(isMecabIpadicNeologdExists())
 
 	// InstallMecabIpadicNeologd()
 
