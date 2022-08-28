@@ -24,5 +24,5 @@ func TestBrewList(t *testing.T) {
 }
 
 func TestBrewInstall(t *testing.T) {
-	BrewInstall("formula-probably-never-exists", "formula-probably-never-exists", BrewOpts{})
+	// BrewInstall("formula-probably-never-exists", "formula-probably-never-exists", BrewOpts{})
 }
