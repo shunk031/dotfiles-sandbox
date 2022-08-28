@@ -11,7 +11,7 @@ jobs:
         system: [server, client]
         exclude:
           - os: macos-latest
-          - system: server
+            system: server
 
     runs-on: ${{ matrix.os }}
     steps:
