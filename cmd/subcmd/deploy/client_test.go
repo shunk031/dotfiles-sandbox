@@ -5,8 +5,12 @@ package deploy
 import (
 	"io/ioutil"
 	"log"
+	"os"
 	"path/filepath"
+	"strings"
 	"testing"
+
+	"github.com/shunk031/dotfiles/cmd/common"
 )
 
 func TestRunDeploy(t *testing.T) {
