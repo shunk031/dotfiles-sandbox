@@ -48,14 +48,15 @@ func TestRunDeploy(t *testing.T) {
 		clientDotFilePaths = append(clientDotFilePaths, filepath.Join(clientDotFilesDirPath, clientDotFilePath.Name()))
 	}
 	numClientDotFiles := len(clientDotFilePaths)
-	actualNumClientDotFiles := 1
+	actualNumClientDotFiles := 7
 	if numClientDotFiles != actualNumClientDotFiles {
 		t.Fatalf("# of dotfiles for client is %d. But found %d.", actualNumClientDotFiles, numClientDotFiles)
 	}
 
 	numMyDotFiles := numCommonDotFiles + numClientDotFiles
-	if numMyDotFiles != 7 {
-		t.Fatal("test failed")
+	numActualMyDotFiles := actualNumCommonDotFiles + actualNumClientDotFiles
+	if numMyDotFiles != 10 {
+		t.Fatalf("# of dotfiles (common + client) is %d. But found %d", numActualMyDotFiles, numMyDotFiles)
 	}
 
 	// compare dotfiles in home directory
