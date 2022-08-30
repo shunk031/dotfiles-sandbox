@@ -1,3 +1,3 @@
-//go:build macos
+//go:build darwin
 
 package local

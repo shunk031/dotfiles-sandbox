@@ -29,7 +29,7 @@ jobs:
           if [ "$RUNNER_OS" == "Linux" ]; then
             os="linux"
           elif [ "$RUNNER_OS" == "macOS" ]; then
-            os="macos"
+            os="darwin"
           else
             echo "$RUNNER_OS not supported"
               exit 1
