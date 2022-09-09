@@ -1,17 +1,28 @@
-//go:build ubuntu
+//go:build linux
 
 package app
 
-import "github.com/shunk031/dotfiles/cmd/common"
+import (
+	"fmt"
+	"os"
+	"path/filepath"
 
-func InstallGhq() {
-	common.PrintInPurple("\n   Install ghq\n\n")
+	"github.com/shunk031/dotfiles/cmd/common"
+)
+
+func InstallGhq() error {
+	common.PrintInPurple("\n   Install ghq\n")
 
 	msg := "ghq"
 	cmd := "go install github.com/x-motemen/ghq@latest"
-	common.Execute(msg, cmd)
+	if err := common.Execute(msg, cmd); err != nil {
+		return err
+	}
 
 	ghqDir := filepath.Join(os.Getenv("HOME"), "ghq")
-	cmd := fmt.Sprintf("mkdir -p %s", ghqDir)
-	common.ExecuteCmd(cmd)
+	cmd = fmt.Sprintf("mkdir -p %s", ghqDir)
+	if err := common.ExecuteCmd(cmd); err != nil {
+		return err
+	}
+	return nil
 }

@@ -30,7 +30,7 @@ func isMecabIpadicNeologdExists() bool {
 }
 
 func cloneMecabIpadicNeologd(url string, dir string) error {
-	cmd := fmt.Sprintf("git clone --quiet --depth 1 %s %s", url, dir)
+	cmd := fmt.Sprintf("git clone --depth 1 %s %s", url, dir)
 	msg := fmt.Sprintf("Clone to %s", dir)
 	return common.Execute(msg, cmd)
 }
@@ -42,21 +42,21 @@ func installMecabIpadicNeologd(dir string) error {
 	return common.Execute(msg, cmd)
 }
 
-func InstallMecabIpadicNeologd() {
+func InstallMecabIpadicNeologd() error {
+	common.PrintInPurple("\n   Install mecab-ipadic-neologd\n")
+
 	dir, err := ioutil.TempDir("", "mecab-ipadic-neologd-")
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
-	defer os.RemoveAll(dir)
+	// defer os.RemoveAll(dir)
 
 	url := "https://github.com/neologd/mecab-ipadic-neologd.git"
-	err = cloneMecabIpadicNeologd(url, dir)
-	if err != nil {
-		log.Fatal(err)
+	if err := cloneMecabIpadicNeologd(url, dir); err != nil {
+		return err
 	}
-
-	err = installMecabIpadicNeologd(dir)
-	if err != nil {
-		log.Fatal(err)
+	if err := installMecabIpadicNeologd(dir); err != nil {
+		return err
 	}
+	return nil
 }

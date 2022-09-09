@@ -4,7 +4,6 @@ package common
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"os/exec"
 )
@@ -31,7 +30,7 @@ func BrewList(formula string) bool {
 	return true
 }
 
-func BrewInstall(formulaReadableName string, formula string, opts BrewOpts) {
+func BrewInstall(formulaReadableName string, formula string, opts BrewOpts) error {
 
 	// Check if `Homebrew` is installed.
 	if !CmdExists("brew") {
@@ -58,23 +57,27 @@ func BrewInstall(formulaReadableName string, formula string, opts BrewOpts) {
 		cmd := fmt.Sprintf("brew install --cask %s %s", formula, opts.CmdArgs)
 		err := Execute(msg, cmd)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 	} else {
 		msg := formulaReadableName
 		cmd := fmt.Sprintf("brew install %s %s", formula, opts.CmdArgs)
 		err := Execute(msg, cmd)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 	}
+	return nil
 }
 
-func BrewUninstall(formulaReadableName string, formula string) {
+func BrewUninstall(formulaReadableName string, formula string) error {
 	cmd := fmt.Sprintf("brew uninstall %s", formula)
 	msg := fmt.Sprintf("Uninstall %s with brew uninstall command", formulaReadableName)
+
 	err := Execute(msg, cmd)
 	if err != nil {
-		log.Fatal(err)
+		return err
+	} else {
+		return nil
 	}
 }

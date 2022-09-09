@@ -1,4 +1,4 @@
-//go:build ubuntu
+//go:build linux
 
 package app
 

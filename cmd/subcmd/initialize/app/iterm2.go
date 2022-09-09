@@ -4,14 +4,13 @@ package app
 
 import (
 	"fmt"
-	"log"
 	"os"
 	"path/filepath"
 
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
-func InstallIterm2() {
+func InstallIterm2() error {
 	common.PrintInPurple("\n   Install iTerm2\n")
 
 	common.BrewInstall("iterm2", "iterm2", common.BrewOpts{TapValue: "homebrew/cask", Cask: "cask"})
@@ -20,12 +19,12 @@ func InstallIterm2() {
 	cmd := "open -g \"/Applications/iTerm.app\" && sleep 2"
 	err := common.Execute(msg, cmd)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	dotPath, err := common.GetDotPath()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	jsonFileName := "hotkey_window.json"
 	srcJsonPath := filepath.Join(dotPath, "machines", "macos", jsonFileName)
@@ -36,6 +35,7 @@ func InstallIterm2() {
 
 	err = common.Execute(msg, cmd)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
+	return nil
 }

@@ -4,9 +4,17 @@ package app
 
 import "github.com/shunk031/dotfiles/cmd/common"
 
-func InstallTmux() {
+func InstallTmux() error {
 	common.PrintInPurple("\n   Install tmux\n")
-	common.BrewInstall("tmux (original)", "tmux", common.BrewOpts{})
-	common.BrewInstall("tmux (pasteboard)", "reattach-to-user-namespace", common.BrewOpts{})
-	common.BrewInstall("cmake", "cmake", common.BrewOpts{})
+
+	if err := common.BrewInstall("tmux (original)", "tmux", common.BrewOpts{}); err != nil {
+		return err
+	}
+	if err := common.BrewInstall("tmux (pasteboard)", "reattach-to-user-namespace", common.BrewOpts{}); err != nil {
+		return err
+	}
+	if err := common.BrewInstall("cmake", "cmake", common.BrewOpts{}); err != nil {
+		return err
+	}
+	return nil
 }

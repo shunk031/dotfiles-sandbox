@@ -1,6 +1,8 @@
 package common
 
 import (
+	"bufio"
+	"bytes"
 	"errors"
 	"fmt"
 	"log"
@@ -12,6 +14,8 @@ import (
 	"github.com/briandowns/spinner"
 	"gopkg.in/ini.v1"
 )
+
+const SHELL = "/bin/bash"
 
 func isDebug() bool {
 	flag := os.Getenv("DEBUG_DOTFILES")
@@ -53,25 +57,47 @@ func Mkd(p string) {
 
 func ExecuteCmd(cmd string) error {
 
-	if !isDebug() {
-		c := exec.Command("/bin/bash", "-c", cmd)
-		err := c.Run()
-		return err
+	c := exec.Command(SHELL, "-c", cmd)
+
+	var out bytes.Buffer
+	var stderr bytes.Buffer
+	c.Stdout = &out
+	c.Stderr = &stderr
+
+	err := c.Run()
+	if err != nil {
+		return errors.New(fmt.Sprintf("command %s; %s", cmd, fmt.Sprint(err)))
 	} else {
-		time.Sleep(100 * time.Millisecond)
 		return nil
 	}
 }
 
 func Execute(msg string, cmd string) error {
+	// ref. https://gist.github.com/bamoo456/7e21773e8ef742a726c041f5f0019d2e
 
 	s := spinner.New(spinner.CharSets[9], 100*time.Millisecond)
 	s.Prefix = "  ["
-	// s.Suffix = fmt.Sprintf("] %s", msg)
 	s.Suffix = fmt.Sprintf("] %s", cmd)
 
 	s.Start()
-	err := ExecuteCmd(cmd)
+
+	c := exec.Command(SHELL, "-c", cmd)
+	stdout, err := c.StdoutPipe()
+	if err != nil {
+		return err
+	}
+
+	err = c.Start()
+	if err != nil {
+		return err
+	}
+
+	scanner := bufio.NewScanner(stdout)
+	for scanner.Scan() {
+		s.Suffix = fmt.Sprintf("] %s", scanner.Text())
+	}
+	c.Wait()
+
 	s.Stop()
 
 	printResult(msg, err)

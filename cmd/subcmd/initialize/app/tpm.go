@@ -11,14 +11,13 @@ import (
 )
 
 func installTpm(dir string, url string) error {
-	cmd := fmt.Sprintf("rm -rf %s && git clone --quiet %s %s", dir, url, dir)
+	cmd := fmt.Sprintf("rm -rf %s && git clone %s %s", dir, url, dir)
 	msg := "Install tpm (tmux plugin manager)"
 	return common.Execute(msg, cmd)
 }
 
 func installTpmPlugins(dir string) error {
 	cmd := filepath.Join(dir, "scripts", "install_plugins.sh")
-	fmt.Println(cmd)
 	msg := "Install tpm plugins"
 	return common.Execute(msg, cmd)
 }
@@ -32,28 +31,23 @@ func installTmuxMemCpuLoad() error {
 
 	url := "https://github.com/thewtex/tmux-mem-cpu-load.git"
 
-	cmd := fmt.Sprintf("git clone --quiet %s %s && cd %s && cmake . -DMAKE_INSTALL_PREFIX=%s && make && make install", url, dir, dir, os.Getenv("HOME"))
+	cmd := fmt.Sprintf("git clone %s %s && cd %s && cmake . -DMAKE_INSTALL_PREFIX=%s && make && make install", url, dir, dir, os.Getenv("HOME"))
 	msg := "Install tmux mem cpu load"
 	return common.Execute(msg, cmd)
 }
 
-func InstallTpm() {
+func InstallTpm() error {
 	dir := filepath.Join(os.Getenv("HOME"), ".tmux", "plugins", "tpm")
 	url := "https://github.com/tmux-plugins/tpm"
 
-	err := installTpm(dir, url)
-	if err != nil {
-		log.Fatal(err)
+	if err := installTpm(dir, url); err != nil {
+		return err
 	}
-
-	err = installTpmPlugins(dir)
-	if err != nil {
-		log.Fatal(err)
+	if err := installTpmPlugins(dir); err != nil {
+		return err
 	}
-
-	err = installTmuxMemCpuLoad()
-	if err != nil {
-		log.Fatal(err)
+	if err := installTmuxMemCpuLoad(); err != nil {
+		return err
 	}
-
+	return nil
 }

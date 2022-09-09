@@ -1,17 +1,17 @@
-//go:build darwin && amd64
+//go:build linux
 
 package initialize
 
-import (
-	"github.com/shunk031/dotfiles/cmd/subcmd/initialize/app"
-)
+import "github.com/shunk031/dotfiles/cmd/subcmd/initialize/app"
 
-func runInitMacOsArch() error {
-
-	if err := app.InstallIterm2(); err != nil {
+func runInitUbuntuCommon() error {
+	if err := app.InstallMisc(); err != nil {
 		return err
 	}
 	if err := app.InstallTmux(); err != nil {
+		return err
+	}
+	if err := app.InstallGhq(); err != nil {
 		return err
 	}
 	if err := app.InstallMecab(); err != nil {

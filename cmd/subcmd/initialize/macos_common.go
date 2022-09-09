@@ -1,7 +1,8 @@
+//go:build darwin
+
 package initialize
 
 import (
-	"log"
 	"os"
 
 	"github.com/shunk031/dotfiles/cmd/common"
@@ -15,33 +16,35 @@ func isXCodeInstalled() bool {
 	}
 }
 
-func installXCode() {
+func installXCode() error {
 	common.PrintInPurple("\n  XCode\n\n")
 
 	if !isXCodeInstalled() {
 		cmd := "open macappstores://itunes.apple.com/en/app/xcode/id497799835"
-		err := common.ExecuteCmd(cmd)
-		if err != nil {
-			log.Fatal(err)
+		if err := common.ExecuteCmd(cmd); err != nil {
+			return err
 		}
 	}
 	cmd := "until [ -d \"/Applications/XCode.app\"]; do sleep 5; done"
 	msg := "XCode.app"
-	err := common.Execute(msg, cmd)
-	if err != nil {
-		log.Fatal(err)
+	if err := common.Execute(msg, cmd); err != nil {
+		return err
+	} else {
+		return nil
 	}
 }
 
-func optOutOfAnalytics() {
+func optOutOfAnalytics() error {
 	err := common.ExecuteCmd("brew analytics off")
 	common.PrintResult("Homebrew (opt-out of analytics)", err)
 	if err != nil {
-		log.Fatal(err)
+		return err
+	} else {
+		return nil
 	}
 }
 
-func installHomebrew() {
+func installHomebrew() error {
 	common.PrintInPurple("\n   Homebrew")
 
 	if !common.CmdExists("brew") {
@@ -50,10 +53,14 @@ func installHomebrew() {
 		err := common.ExecuteCmd(cmd)
 		common.PrintResult("Homebrew", err)
 		if err != nil {
-			log.Fatal(err)
+			return err
 		}
 	}
-	optOutOfAnalytics()
+	if err := optOutOfAnalytics(); err != nil {
+		return err
+	} else {
+		return nil
+	}
 }
 
 func runInitMacOsCommon() error {

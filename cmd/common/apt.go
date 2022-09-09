@@ -2,7 +2,6 @@ package common
 
 import (
 	"fmt"
-	"log"
 	"os/exec"
 )
 
@@ -18,18 +17,14 @@ func packageIsInstalled(pkg string) bool {
 	return true
 }
 
-func AptInstall(pkgReadableName string, pkg string, opts AptOpts) {
+func AptInstall(pkgReadableName string, pkg string, opts AptOpts) error {
 	if !packageIsInstalled(pkg) {
 		msg := pkgReadableName
-		cmd := fmt.Sprintf("sudo apt-get install --allow-unauthenticated -qqy %s %s", opts.ExtraArgs, pkg)
-		//                                                suppress output ─┘│
-		//                      assume "yes" as the answer to all prompts ──┘
-		err := Execute(msg, cmd)
-		if err != nil {
-			log.Fatal(err)
-		}
+		cmd := fmt.Sprintf("sudo apt-get install -y %s %s", opts.ExtraArgs, pkg)
+		return Execute(msg, cmd)
 
 	} else {
 		printSuccess(pkgReadableName)
+		return nil
 	}
 }

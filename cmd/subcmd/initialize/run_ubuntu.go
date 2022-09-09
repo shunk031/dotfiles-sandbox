@@ -1,9 +1,16 @@
-//go:build ubuntu
+//go:build linux
 
 package initialize
 
 func RunInitCmd() error {
-	// runInitCommon()
-
-	return runInitUbuntu()
+	if err := runInitCommon(); err != nil {
+		return err
+	}
+	if err := runInitUbuntuCommon(); err != nil {
+		return err
+	}
+	if err := runInitUbuntuSystem(); err != nil {
+		return err
+	}
+	return nil
 }
