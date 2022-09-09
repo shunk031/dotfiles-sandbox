@@ -14,6 +14,9 @@ func runInitUbuntuCommon() error {
 	if err := app.InstallGhq(); err != nil {
 		return err
 	}
+	if err := app.InstallGh(); err != nil {
+		return err
+	}
 	if err := app.InstallMecab(); err != nil {
 		return err
 	}

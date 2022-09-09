@@ -13,10 +13,10 @@ func download(url string, output string) error {
 	var cmd string
 	if CmdExists("curl") {
 		cmd = fmt.Sprintf("curl -LsSo %s %s", output, url)
-		//                        │││└─ write output to file
-		//                        ││└─ show error messages
-		//                        │└─ don't show the progress meter
-		//                        └─ follow redirects
+		//                       │││└─ write output to file
+		//                       ││└─ show error messages
+		//                       │└─ don't show the progress meter
+		//                       └─ follow redirects
 	} else if CmdExists("wget") {
 		cmd = fmt.Sprintf("wget -qO %s %s", output, url)
 		//                      │└─ write output to file
