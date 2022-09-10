@@ -75,34 +75,62 @@ func ExecuteCmd(cmd string) error {
 func Execute(msg string, cmd string) error {
 	// ref. https://gist.github.com/bamoo456/7e21773e8ef742a726c041f5f0019d2e
 
+	// settings for the spiner
 	s := spinner.New(spinner.CharSets[9], 100*time.Millisecond)
 	s.Prefix = "  ["
 	s.Suffix = fmt.Sprintf("] %s", cmd)
-
+	// after the settings, start the spiner
 	s.Start()
 
+	// build the command
 	c := exec.Command(SHELL, "-c", cmd)
 	stdout, err := c.StdoutPipe()
 	if err != nil {
 		return err
 	}
-
-	err = c.Start()
+	stderr, err := c.StderrPipe()
 	if err != nil {
 		return err
 	}
 
-	scanner := bufio.NewScanner(stdout)
-	for scanner.Scan() {
-		s.Suffix = fmt.Sprintf("] %s", scanner.Text())
+	// run the command
+	if err := c.Start(); err != nil {
+		return err
 	}
-	c.Wait()
 
+	// for handling stdout
+	go func() {
+		scanner := bufio.NewScanner(stdout)
+		for scanner.Scan() {
+			s.Suffix = fmt.Sprintf("] %s", scanner.Text())
+		}
+	}()
+
+	// for handling stderr
+	go func() {
+		scanner := bufio.NewScanner(stderr)
+		for scanner.Scan() {
+			s.Suffix = fmt.Sprintf("] %s", scanner.Text())
+		}
+	}()
+
+	// waiting for finishing the command
+	if err := c.Wait(); err != nil {
+		return err
+	}
+
+	// stop the spiner
 	s.Stop()
 
+	// print the result
 	printResult(msg, err)
 
 	return err
+}
+
+func PathExists(p string) bool {
+	_, err := os.Stat(p)
+	return err == nil
 }
 
 func CmdExists(c string) bool {
@@ -159,4 +187,10 @@ func GetCpuArch() string {
 		log.Fatal(err)
 	}
 	return string(out)
+}
+
+func RemoveDir(dir string) error {
+	cmd := fmt.Sprintf("rm -rf %s", dir)
+	msg := fmt.Sprintf("Remove %s", dir)
+	return Execute(msg, cmd)
 }
