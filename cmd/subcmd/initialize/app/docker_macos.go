@@ -5,7 +5,6 @@ package app
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 
@@ -17,13 +16,6 @@ const (
 	dockerDownloadURLTemplate        = "https://download.docker.com/mac/static/stable/%s/docker-%s.tgz"
 	dockerComposeDownloadURLTemplate = "https://github.com/docker/compose/releases/latest/download/docker-compose-darwin-%s"
 )
-
-func init() {
-	homeBinDir := filepath.Join(os.Getenv("HOME"), "bin")
-	if err := os.Mkdir(homeBinDir, 0755); err != nil {
-		log.Fatal(err)
-	}
-}
 
 func installLima() error {
 	// TODO (shunk031): run `limactl start docker.yaml`
