@@ -10,6 +10,10 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
+const (
+	iterm2ConfigName = "hotkey_window.json"
+)
+
 func InstallIterm2() error {
 	common.PrintInPurple("\n   Install iTerm2\n")
 
@@ -26,9 +30,8 @@ func InstallIterm2() error {
 	if err != nil {
 		return err
 	}
-	jsonFileName := "hotkey_window.json"
-	srcJsonPath := filepath.Join(dotPath, "machines", "macos", jsonFileName)
-	dstJsonPath := filepath.Join(os.Getenv("HOME"), "Library", "Application\\ Support", "iTerm2", "DynamicProfiles", jsonFileName)
+	srcJsonPath := filepath.Join(dotPath, "machines", "macos", iterm2ConfigName)
+	dstJsonPath := filepath.Join(os.Getenv("HOME"), "Library", "Application\\ Support", "iTerm2", "DynamicProfiles", iterm2ConfigName)
 
 	msg = fmt.Sprintf("Create symbolic link from %s to %s", srcJsonPath, dstJsonPath)
 	cmd = fmt.Sprintf("ln -sfn %s %s", srcJsonPath, dstJsonPath)

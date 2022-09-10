@@ -11,6 +11,10 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
+const (
+	mecabIpadicNeologdUrl = "https://github.com/neologd/mecab-ipadic-neologd.git"
+)
+
 func isMecabIpadicNeologdExists() bool {
 	cmd := exec.Command("/bin/bash", "-c", "echo `mecab-config --dicdir`/mecab-ipadic-neologd")
 	out, err := cmd.Output()
@@ -54,8 +58,7 @@ func InstallMecabIpadicNeologd() error {
 	if err := installMecabIpadicNeologdRequirements(); err != nil {
 		return err
 	}
-	url := "https://github.com/neologd/mecab-ipadic-neologd.git"
-	if err := cloneMecabIpadicNeologd(url, dir); err != nil {
+	if err := cloneMecabIpadicNeologd(mecabIpadicNeologdUrl, dir); err != nil {
 		return err
 	}
 	if err := installMecabIpadicNeologd(dir); err != nil {

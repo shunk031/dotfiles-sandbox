@@ -10,6 +10,11 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
+const (
+	tpmURL            = "https://github.com/tmux-plugins/tpm"
+	tmuxMemCpuLoadUrl = "https://github.com/thewtex/tmux-mem-cpu-load.git"
+)
+
 func installTpm(dir string, url string) error {
 	cmd := fmt.Sprintf("rm -rf %s && git clone %s %s", dir, url, dir)
 	msg := "Install tpm (tmux plugin manager)"
@@ -29,18 +34,17 @@ func installTmuxMemCpuLoad() error {
 	}
 	defer os.RemoveAll(dir)
 
-	url := "https://github.com/thewtex/tmux-mem-cpu-load.git"
-
-	cmd := fmt.Sprintf("git clone %s %s && cd %s && cmake . && make && sudo make install", url, dir, dir)
+	cmd := fmt.Sprintf(
+		"git clone %s %s && cd %s && cmake . && make && sudo make install",
+		tmuxMemCpuLoadUrl, dir, dir,
+	)
 	msg := "Install tmux mem cpu load"
 	return common.Execute(msg, cmd)
 }
 
 func InstallTpm() error {
 	dir := filepath.Join(os.Getenv("HOME"), ".tmux", "plugins", "tpm")
-	url := "https://github.com/tmux-plugins/tpm"
-
-	if err := installTpm(dir, url); err != nil {
+	if err := installTpm(dir, tpmURL); err != nil {
 		return err
 	}
 	if err := installTpmPlugins(dir); err != nil {
