@@ -7,5 +7,5 @@ docker run -it -v $(pwd):/home/$(whoami)/.dotfiles dotfiles /bin/bash
 ```
 
 ```shell
-DOTPATH=$(pwd) go run -tags linux,amd64,server ./cmd/dotfiles/
+DOTPATH=$(pwd) go run -tags linux,amd64,server ./cmd/dotfiles/ init
 ```
