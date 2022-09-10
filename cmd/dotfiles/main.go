@@ -16,6 +16,7 @@ const dotfilesLogo = `
                                            | $$
                                            | $$
                                            |__/
+										   
                      *** This is dotfiles setup script ***
 `
 
