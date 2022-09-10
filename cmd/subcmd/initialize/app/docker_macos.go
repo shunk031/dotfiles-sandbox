@@ -11,36 +11,22 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
+const (
+	dockerCliVersion = "20.10.10"
+)
+
 func installLima() error {
 	// TODO (shunk031): run `limactl start docker.yaml`
 	return common.BrewInstall("lima", "lima", common.BrewOpts{})
 }
 
-func downloadWithCurl(url string, f string) error {
-	cmd := fmt.Sprintf("curl -LsSo %s %s", f, url)
-	msg := fmt.Sprintf("Download %s to %s", url, f)
-	return common.Execute(msg, cmd)
-}
-
-func moveToHomeBin(fp string, fname string) error {
-	srcPath := filepath.Join(fp, fname)
-	dstPath := filepath.Join(os.Getenv("HOME"), "bin", fname)
-	return common.Execute(
-		fmt.Sprintf("Move %s to %s", srcPath, dstPath),
-		fmt.Sprintf("mv %s %s", srcPath, dstPath),
-	)
-}
-
-func extractAndMoveTarFile(archive string) error {
-	cmd := fmt.Sprintf("tar fvx %s", archive)
-	msg := fmt.Sprintf("Extract from %s", archive)
-	if err := common.Execute(msg, cmd); err != nil {
+func extractAndMoveTarFile(archive string, basedir string) error {
+	if err := common.Extract(archive, basedir); err != nil {
 		return err
 	}
-
-	tgzBinPath := filepath.Join(archive, "docker")
+	tgzBinPath := filepath.Join(basedir, "docker")
 	homeBinPath := filepath.Join(os.Getenv("HOME"), "bin", "docker")
-	return moveToHomeBin(tgzBinPath, homeBinPath)
+	return os.Rename(tgzBinPath, homeBinPath)
 }
 
 func installDockerCli() error {
@@ -51,13 +37,15 @@ func installDockerCli() error {
 	defer os.RemoveAll(dir)
 
 	cpu := common.GetCpuArch()
-	ver := "20.10.10"
-	url := fmt.Sprintf("https://download.docker.com/mac/static/stable/%s/docker-%s.tgz", cpu, ver)
+	if cpu == "arm64" {
+		cpu = "aarch64"
+	}
+	url := fmt.Sprintf("https://download.docker.com/mac/static/stable/%s/docker-%s.tgz", cpu, dockerCliVersion)
 	tgzFile := filepath.Join(dir, "docker.tgz")
-	if err := downloadWithCurl(url, tgzFile); err != nil {
+	if err := common.Download(url, tgzFile); err != nil {
 		return err
 	}
-	return extractAndMoveTarFile(tgzFile)
+	return extractAndMoveTarFile(tgzFile, dir)
 }
 
 func installDockerCompose() error {
@@ -68,12 +56,19 @@ func installDockerCompose() error {
 	defer os.RemoveAll(dir)
 
 	cpu := common.GetCpuArch()
+	if cpu == "arm64" {
+		cpu = "aarch64"
+	}
 	url := fmt.Sprintf("https://github.com/docker/compose/releases/latest/download/docker-compose-darwin-%s", cpu)
 	execFile := filepath.Join(dir, "docker-compose")
-	if err := downloadWithCurl(url, execFile); err != nil {
+	if err := common.Download(url, execFile); err != nil {
 		return err
 	}
-	return moveToHomeBin(execFile, "docker-compose")
+	homeBinFile := filepath.Join(os.Getenv("HOME"), "bin", "docker-compose")
+	if err := os.Rename(execFile, homeBinFile); err != nil {
+		return err
+	}
+	return os.Chmod(homeBinFile, 0755)
 }
 
 func InstallDocker() error {

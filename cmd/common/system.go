@@ -9,6 +9,7 @@ import (
 	"os"
 	"os/exec"
 	"runtime"
+	"strings"
 	"time"
 
 	"github.com/briandowns/spinner"
@@ -159,10 +160,10 @@ func CmdExists(c string) bool {
 	return true
 }
 
-func extract(archive string, outputDir string) error {
+func Extract(archive string, outputDir string) error {
 
 	if CmdExists("tar") {
-		msg := fmt.Sprintf("Extract from %s", archive)
+		msg := fmt.Sprintf("Extract from %s to %s", archive, outputDir)
 		cmd := fmt.Sprintf("tar -zxf %s --strip-components 1 -C %s", archive, outputDir)
 		return Execute(msg, cmd)
 	} else {
@@ -203,7 +204,7 @@ func GetCpuArch() string {
 	if err != nil {
 		log.Fatal(err)
 	}
-	return string(out)
+	return strings.TrimSuffix(string(out), "\n")
 }
 
 func RemoveDir(dir string) error {

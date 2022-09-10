@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func download(url string, output string) error {
+func Download(url string, output string) error {
 	msg := fmt.Sprintf("Download from %s to %s", url, output)
 
 	var cmd string
@@ -23,8 +23,7 @@ func download(url string, output string) error {
 		//                      └─ don't show output
 
 	}
-	err := Execute(msg, cmd)
-	return err
+	return Execute(msg, cmd)
 }
 
 func DownloadDotfiles(dotfilesDir string, tarballUrl string, isSkipQuestions bool) {
@@ -37,7 +36,7 @@ func DownloadDotfiles(dotfilesDir string, tarballUrl string, isSkipQuestions boo
 	defer os.Remove(tmpFile.Name())
 	defer printResult("Remove archive", nil)
 
-	err = download(tarballUrl, tmpFile.Name())
+	err = Download(tarballUrl, tmpFile.Name())
 	printResult("Download archive\n", err)
 
 	if !isSkipQuestions {
@@ -94,7 +93,7 @@ func DownloadDotfiles(dotfilesDir string, tarballUrl string, isSkipQuestions boo
 
 	// Extract archive in the `dotfiles` directory.
 
-	err = extract(tmpFile.Name(), dotfilesDir)
+	err = Extract(tmpFile.Name(), dotfilesDir)
 	printResult("Extract archive", err)
 
 	if err := tmpFile.Close(); err != nil {
