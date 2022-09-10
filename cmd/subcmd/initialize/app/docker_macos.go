@@ -12,7 +12,9 @@ import (
 )
 
 const (
-	dockerCliVersion = "20.10.10"
+	dockerCliVersion                 = "20.10.10"
+	dockerDownloadURLTemplate        = "https://download.docker.com/mac/static/stable/%s/docker-%s.tgz"
+	dockerComposeDownloadURLTemplate = "https://github.com/docker/compose/releases/latest/download/docker-compose-darwin-%s"
 )
 
 func installLima() error {
@@ -40,7 +42,7 @@ func installDockerCli() error {
 	if cpu == "arm64" {
 		cpu = "aarch64"
 	}
-	url := fmt.Sprintf("https://download.docker.com/mac/static/stable/%s/docker-%s.tgz", cpu, dockerCliVersion)
+	url := fmt.Sprintf(dockerDownloadURLTemplate, cpu, dockerCliVersion)
 	tgzFile := filepath.Join(dir, "docker.tgz")
 	if err := common.Download(url, tgzFile); err != nil {
 		return err
@@ -59,7 +61,7 @@ func installDockerCompose() error {
 	if cpu == "arm64" {
 		cpu = "aarch64"
 	}
-	url := fmt.Sprintf("https://github.com/docker/compose/releases/latest/download/docker-compose-darwin-%s", cpu)
+	url := fmt.Sprintf(dockerComposeDownloadURLTemplate, cpu)
 	execFile := filepath.Join(dir, "docker-compose")
 	if err := common.Download(url, execFile); err != nil {
 		return err
