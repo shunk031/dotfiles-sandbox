@@ -29,6 +29,7 @@ func installGh() error {
 
 func InstallGh() error {
 	common.PrintInPurple("\n   Install gh\n")
+
 	if err := installGh(); err != nil {
 		return err
 	}

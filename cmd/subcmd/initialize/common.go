@@ -15,18 +15,28 @@ func runSshKeygen() error {
 	email := "shunsuke.kitada.0831@gmail.com"
 	outputKeyfile := filepath.Join(os.Getenv("HOME"), ".ssh", "id_ed25519")
 
-	cmd := fmt.Sprintf("ssh-keygen -q -t ed25519 -C \"%s\" -N \"\" -f %s <<<y >/dev/null 2>&1", email, outputKeyfile)
-	msg := fmt.Sprintf("Generating a new SSH key to %s", outputKeyfile)
-	return common.Execute(msg, cmd)
+	if !common.PathExists(outputKeyfile) {
+		cmd := fmt.Sprintf("ssh-keygen -q -t ed25519 -C \"%s\" -N \"\" -f %s <<<y >/dev/null 2>&1", email, outputKeyfile)
+		msg := fmt.Sprintf("Generating a new SSH key to %s", outputKeyfile)
+		return common.Execute(msg, cmd)
+	} else {
+		msg := fmt.Sprintf("File %s already exists", outputKeyfile)
+		common.PrintSuccess(msg)
+		return nil
+	}
 }
 
 func installPowerlevel10k() error {
 	dir := filepath.Join(os.Getenv("HOME"), ".zprezto", "modules", "prompt", "external", "powerlevel10k")
 	url := "https://github.com/romkatv/powerlevel10k.git"
 
-	cmd := fmt.Sprintf("rm -rf %s && git clone %s %s", dir, url, dir)
-	msg := fmt.Sprintf("Clone to %s", dir)
-	return common.Execute(msg, cmd)
+	if err := common.RemoveDir(dir); err != nil {
+		return err
+	}
+	return common.Execute(
+		fmt.Sprintf("Clone to %s", dir),
+		fmt.Sprintf("git clone %s %s", url, dir),
+	)
 }
 
 func InstallPowerlevel10k() error {

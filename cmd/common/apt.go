@@ -9,7 +9,7 @@ type AptOpts struct {
 	ExtraArgs string
 }
 
-func packageIsInstalled(pkg string) bool {
+func AptPackageIsInstalled(pkg string) bool {
 	cmd := exec.Command("dpkg", "-s", pkg)
 	if err := cmd.Run(); err != nil {
 		return false
@@ -18,7 +18,7 @@ func packageIsInstalled(pkg string) bool {
 }
 
 func AptInstall(pkgReadableName string, pkg string, opts AptOpts) error {
-	if !packageIsInstalled(pkg) {
+	if !AptPackageIsInstalled(pkg) {
 		msg := pkgReadableName
 		cmd := fmt.Sprintf("sudo apt-get install -y %s %s", opts.ExtraArgs, pkg)
 		return Execute(msg, cmd)

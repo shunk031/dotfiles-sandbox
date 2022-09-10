@@ -17,7 +17,7 @@ const dotfilesLogo = `
                                            | $$
                                            |__/
 										   
-                     *** This is dotfiles setup script ***
+            *** This is the setup script for shunk031's dotfiles ***
 `
 
 func ShowLogo() {

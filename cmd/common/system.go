@@ -15,7 +15,10 @@ import (
 	"gopkg.in/ini.v1"
 )
 
-const SHELL = "/bin/bash"
+const (
+	SHELL      = "/bin/bash"
+	maxCharLen = 170
+)
 
 func isDebug() bool {
 	flag := os.Getenv("DEBUG_DOTFILES")
@@ -78,7 +81,13 @@ func Execute(msg string, cmd string) error {
 	// settings for the spiner
 	s := spinner.New(spinner.CharSets[9], 100*time.Millisecond)
 	s.Prefix = "  ["
-	s.Suffix = fmt.Sprintf("] %s", cmd)
+
+	if len(cmd) > maxCharLen {
+		s.Suffix = fmt.Sprintf("] %s", cmd[:maxCharLen])
+	} else {
+		s.Suffix = fmt.Sprintf("] %s", cmd)
+	}
+
 	// after the settings, start the spiner
 	s.Start()
 
@@ -102,7 +111,11 @@ func Execute(msg string, cmd string) error {
 	go func() {
 		scanner := bufio.NewScanner(stdout)
 		for scanner.Scan() {
-			s.Suffix = fmt.Sprintf("] %s", scanner.Text())
+			txt := scanner.Text()
+			if len(txt) > maxCharLen {
+				txt = txt[:maxCharLen]
+			}
+			s.Suffix = fmt.Sprintf("] %s", txt)
 		}
 	}()
 
@@ -110,7 +123,11 @@ func Execute(msg string, cmd string) error {
 	go func() {
 		scanner := bufio.NewScanner(stderr)
 		for scanner.Scan() {
-			s.Suffix = fmt.Sprintf("] %s", scanner.Text())
+			txt := scanner.Text()
+			if len(txt) > maxCharLen {
+				txt = txt[:maxCharLen]
+			}
+			s.Suffix = fmt.Sprintf("] %s", txt)
 		}
 	}()
 

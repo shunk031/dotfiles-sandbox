@@ -8,6 +8,9 @@ func runInitUbuntuCommon() error {
 	if err := app.InstallMisc(); err != nil {
 		return err
 	}
+	// if err := app.InstallDocker(); err != nil {
+	// 	return err
+	// }
 	if err := app.InstallTmux(); err != nil {
 		return err
 	}

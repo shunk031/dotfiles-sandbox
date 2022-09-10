@@ -51,6 +51,9 @@ func InstallMecabIpadicNeologd() error {
 	}
 	defer os.RemoveAll(dir)
 
+	if err := installMecabIpadicNeologdRequirements(); err != nil {
+		return err
+	}
 	url := "https://github.com/neologd/mecab-ipadic-neologd.git"
 	if err := cloneMecabIpadicNeologd(url, dir); err != nil {
 		return err

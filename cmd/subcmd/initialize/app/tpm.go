@@ -23,7 +23,7 @@ func installTpmPlugins(dir string) error {
 }
 
 func installTmuxMemCpuLoad() error {
-	dir, err := ioutil.TempDir("", "tmux-cpu-mem-load-")
+	dir, err := ioutil.TempDir("", "tmux-mem-cpu-load-")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -31,7 +31,7 @@ func installTmuxMemCpuLoad() error {
 
 	url := "https://github.com/thewtex/tmux-mem-cpu-load.git"
 
-	cmd := fmt.Sprintf("git clone %s %s && cd %s && cmake . -DMAKE_INSTALL_PREFIX=%s && make && make install", url, dir, dir, os.Getenv("HOME"))
+	cmd := fmt.Sprintf("git clone %s %s && cd %s && cmake . && make && sudo make install", url, dir, dir)
 	msg := "Install tmux mem cpu load"
 	return common.Execute(msg, cmd)
 }

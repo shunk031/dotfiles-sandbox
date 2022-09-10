@@ -4,7 +4,7 @@ package app
 
 import "github.com/shunk031/dotfiles/cmd/common"
 
-func InstallMecabIpadicNeologdRequirements() error {
+func installMecabIpadicNeologdRequirements() error {
 	requirements := []string{"git", "curl", "xz"}
 	for _, req := range requirements {
 		if err := common.BrewInstall(req, req, common.BrewOpts{}); err != nil {
