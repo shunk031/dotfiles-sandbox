@@ -17,7 +17,7 @@ func cloneFzf(dir string, url string) error {
 func installFzf(dir string) error {
 	installCmdPath := filepath.Join(dir, "install")
 	cmd := fmt.Sprintf("%s --key-bindings --completion --no-update-rc", installCmdPath)
-	msg := fmt.Sprintf("Finish: %s", cmd)
+	msg := fmt.Sprintf("Finish to run: %s", cmd)
 	return common.Execute(msg, cmd)
 }
 
