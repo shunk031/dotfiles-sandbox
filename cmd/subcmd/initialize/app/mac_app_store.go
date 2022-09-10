@@ -4,33 +4,34 @@ package app
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
-func runMasInstall(appId string, appName string) {
+func installMas() error {
+	return common.BrewInstall("mas", "mas", common.BrewOpts{})
+}
+
+func runMasInstall(appId string, appName string) error {
 	cmd := fmt.Sprintf("mas install %s", appId)
 	msg := fmt.Sprintf("Install %s", appName)
-	err := common.Execute(msg, cmd)
-	if err != nil {
-		log.Fatal(err)
-	}
+	return common.Execute(msg, cmd)
 }
 
-func installBandwidthPlus() {
+func installBandwidthPlus() error {
 	appId := "490461369"
 	appName := "Bandwidth+"
-	runMasInstall(appId, appName)
+	return runMasInstall(appId, appName)
 }
 
-func InstallMacAppFromStore() {
+func InstallMacAppFromStore() error {
 	common.PrintInPurple("\n   Install apps from Mac App Store\n")
 
-	// install mas (Mac App Store command line interface)
-	common.BrewInstall("mas", "mas", common.BrewOpts{})
-
-	// install apps
-	installBandwidthPlus()
-
+	if err := installMas(); err != nil {
+		return err
+	}
+	if err := installBandwidthPlus(); err != nil {
+		return err
+	}
+	return nil
 }
