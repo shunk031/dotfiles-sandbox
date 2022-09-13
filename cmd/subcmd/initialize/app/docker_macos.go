@@ -36,14 +36,6 @@ func extractAndMoveTarFile(archive string, basedir string) error {
 		if err := common.CreateSymlinkHomeBinDir(); err != nil {
 			return err
 		}
-		// isSymlinkExists, err := common.SymlinkExists(homeBinDir)
-		// if err != nil {
-		// 	return err
-		// } else if !isSymlinkExists {
-		// 	if err := common.CreateSymlinkHomeBinDir(); err != nil {
-		// 		return err
-		// 	}
-		// }
 	}
 	return os.Rename(tgzBinPath, homeBinPath)
 }

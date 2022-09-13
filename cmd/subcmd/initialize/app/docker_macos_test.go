@@ -11,6 +11,10 @@ import (
 )
 
 func TestInstallLima(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skip("Skipping testing in CI environment")
+	}
+
 	if err := installLima(); err != nil {
 		t.Fatal(err)
 	}
