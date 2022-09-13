@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 
 	"github.com/shunk031/dotfiles/cmd/common"
@@ -38,6 +39,12 @@ func extractAndMoveTarFile(archive string, basedir string) error {
 		}
 	}
 	fmt.Println(common.PathExists(tgzBinPath), common.PathExists(homeBinDir))
+	cmd := exec.Command("/bin/bash", "-c", fmt.Sprintf("ls -al $HOME/"))
+	ret, err := cmd.Output()
+	if err != nil {
+		return err
+	}
+	fmt.Println(ret)
 	return os.Rename(tgzBinPath, homeBinPath)
 }
 
