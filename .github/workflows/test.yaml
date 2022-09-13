@@ -28,6 +28,7 @@ jobs:
         run: |
           if [ "$RUNNER_OS" == "macOS" ]; then
             brew install mas
+            mas signin ${{ secrets.APPLE_ID_EMAIL }} ${{ secrets.APPLE_ID_PASSWORD }} 
             mas install 490461369
           fi
 
