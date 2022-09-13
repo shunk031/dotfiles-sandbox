@@ -24,12 +24,6 @@ jobs:
         with:
           go-version: 1.18
       
-      - name: ls
-        run: |
-          if [ "$RUNNER_OS" == "macOS" ]; then
-            ls -al $HOME/bin
-          fi
-
       - name: Test
         run: |
           if [ "$RUNNER_OS" == "Linux" ]; then
