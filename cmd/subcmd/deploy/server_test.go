@@ -19,14 +19,14 @@ func TestRunDeploySystem(t *testing.T) {
 
 	dotPath, err := common.GetDotPath()
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 
 	// get paths from .files/common
 	commonDotFilesDirPath := filepath.Join(dotPath, ".files", "common")
 	commonDotFiles, err := ioutil.ReadDir(commonDotFilesDirPath)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	var commonDotFilePaths []string
 	for _, commonDotFilePath := range commonDotFiles {
@@ -42,7 +42,7 @@ func TestRunDeploySystem(t *testing.T) {
 	serverDotFilesDirPath := filepath.Join(dotPath, ".files", "server")
 	serverDotFiles, err := ioutil.ReadDir(serverDotFilesDirPath)
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	var serverDotFilePaths []string
 	for _, serverDotFilePath := range serverDotFiles {
@@ -64,7 +64,7 @@ func TestRunDeploySystem(t *testing.T) {
 	// compare dotfiles in home directory
 	homeFiles, err := ioutil.ReadDir(os.Getenv("HOME"))
 	if err != nil {
-		log.Fatal(err)
+		t.Fatal(err)
 	}
 	var homeDotFilePaths []string
 	for _, homeFile := range homeFiles {
@@ -74,7 +74,7 @@ func TestRunDeploySystem(t *testing.T) {
 			p := filepath.Join(os.Getenv("HOME"), homeFile.Name())
 			info, err := os.Lstat(p)
 			if err != nil {
-				log.Fatal(err)
+				t.Fatal(err)
 			}
 
 			// is symbolic link?
