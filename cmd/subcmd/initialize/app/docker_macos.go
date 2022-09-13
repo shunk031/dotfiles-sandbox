@@ -44,7 +44,7 @@ func extractAndMoveTarFile(archive string, basedir string) error {
 	if err != nil {
 		return err
 	}
-	fmt.Println(ret)
+	fmt.Println(string(ret))
 	return os.Rename(tgzBinPath, homeBinPath)
 }
 
