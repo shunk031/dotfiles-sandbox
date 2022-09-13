@@ -152,6 +152,14 @@ func PathExists(p string) bool {
 	return err == nil
 }
 
+func SymlinkExists(p string) (bool, error) {
+	info, err := os.Lstat(p)
+	if err != nil {
+		return false, err
+	}
+	return info.Mode()&os.ModeSymlink != os.ModeSymlink, nil
+}
+
 func CmdExists(c string) bool {
 	cmd := exec.Command("/bin/bash", "-c", "command", "-v", c)
 	if err := cmd.Run(); err != nil {
