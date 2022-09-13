@@ -4,7 +4,6 @@ package deploy
 
 import (
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
