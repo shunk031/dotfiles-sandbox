@@ -30,7 +30,7 @@ func installPowerlevel10k() error {
 	dir := filepath.Join(os.Getenv("HOME"), ".zprezto", "modules", "prompt", "external", "powerlevel10k")
 	url := "https://github.com/romkatv/powerlevel10k.git"
 
-	if err := common.RemoveDir(dir); err != nil {
+	if err := os.RemoveAll(dir); err != nil {
 		return err
 	}
 	return common.Execute(

@@ -3,7 +3,6 @@ package deploy
 import (
 	"fmt"
 	"io/ioutil"
-	"log"
 	"os"
 	"path/filepath"
 	"strings"
@@ -11,17 +10,16 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
-func runDeploy(dotFileType string) error {
-
+func deployDotFiles(dotFileType string) error {
 	dotPath, err := common.GetDotPath()
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 
 	dotFilesPath := filepath.Join(dotPath, ".files", dotFileType)
 	files, err := ioutil.ReadDir(dotFilesPath)
 	if err != nil {
-		log.Fatal(err)
+		return err
 	}
 	for _, file := range files {
 		filename := file.Name()
@@ -33,11 +31,19 @@ func runDeploy(dotFileType string) error {
 
 		msg := fmt.Sprintf("%s -> %s", dstDotFilePath, srcDotFilePath)
 		cmd := fmt.Sprintf("ln -sfnv %s %s", srcDotFilePath, dstDotFilePath)
-		err := common.Execute(msg, cmd)
-
-		if err != nil {
-			log.Fatal(err)
+		if err := common.Execute(msg, cmd); err != nil {
+			return err
 		}
+	}
+	return nil
+}
+
+func runDeploy(dotFileType string) error {
+	if err := deployDotFiles(dotFileType); err != nil {
+		return err
+	}
+	if err := common.CreateSymlinkHomeBinDir(); err != nil {
+		return err
 	}
 	return nil
 }
@@ -46,9 +52,8 @@ func RunDeployCmd() error {
 
 	common.PrintInPurple("\n• Create symbolic links\n")
 
-	err := runDeployCommon()
-	if err != nil {
-		log.Fatal(err)
+	if err := runDeployCommon(); err != nil {
+		return err
 	}
 	return runDeploySystem()
 }

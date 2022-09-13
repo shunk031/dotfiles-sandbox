@@ -8,6 +8,7 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
 	"runtime"
 	"strings"
 	"time"
@@ -39,25 +40,25 @@ func GetDotPath() (string, error) {
 	}
 }
 
-func Mkd(p string) {
-	if len(p) > 0 {
-		fInfo, err := os.Stat(p)
-		if err != nil {
-			log.Fatal(err)
-		} else if errors.Is(err, os.ErrNotExist) {
-			msg := p
-			cmd := fmt.Sprintf("mkdir -p %s", p)
-			err := Execute(msg, cmd)
-			if err != nil {
-				log.Fatal(err)
-			}
-		} else {
-			if !!fInfo.IsDir() {
-				printError(fmt.Errorf("%s - a file with the same name already exists", p))
-			}
-		}
-	}
-}
+// func Mkd(p string) {
+// 	if len(p) > 0 {
+// 		fInfo, err := os.Stat(p)
+// 		if err != nil {
+// 			log.Fatal(err)
+// 		} else if errors.Is(err, os.ErrNotExist) {
+// 			msg := p
+// 			cmd := fmt.Sprintf("mkdir -p %s", p)
+// 			err := Execute(msg, cmd)
+// 			if err != nil {
+// 				log.Fatal(err)
+// 			}
+// 		} else {
+// 			if !!fInfo.IsDir() {
+// 				printError(fmt.Errorf("%s - a file with the same name already exists", p))
+// 			}
+// 		}
+// 	}
+// }
 
 func ExecuteCmd(cmd string) error {
 
@@ -211,4 +212,20 @@ func RemoveDir(dir string) error {
 	cmd := fmt.Sprintf("rm -rf %s", dir)
 	msg := fmt.Sprintf("Remove %s", dir)
 	return Execute(msg, cmd)
+}
+
+func CreateSymlinkHomeBinDir() error {
+	dotPath, err := GetDotPath()
+	if err != nil {
+		return err
+	}
+
+	srcDir := filepath.Join(dotPath, "bin")
+	dstDir := filepath.Join(os.Getenv("HOME"), "bin")
+
+	if err := os.Symlink(srcDir, dstDir); err != nil {
+		return err
+	} else {
+		return nil
+	}
 }
