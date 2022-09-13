@@ -56,7 +56,7 @@ func TestRunDeploySystem(t *testing.T) {
 
 	// common dotfiles + server dotfiles + the symbolic link of ~/bin
 	numMyDotFiles := numCommonDotFiles + numServerDotFiles + 1
-	actualNumMyDotFiles := 4
+	actualNumMyDotFiles := 5
 	if numMyDotFiles != actualNumMyDotFiles {
 		t.Fatalf("# of my dotfiles is %d. But found %d.", actualNumMyDotFiles, numMyDotFiles)
 	}
