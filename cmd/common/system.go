@@ -223,9 +223,8 @@ func CreateSymlinkHomeBinDir() error {
 	srcDir := filepath.Join(dotPath, "bin")
 	dstDir := filepath.Join(os.Getenv("HOME"), "bin")
 
-	if err := os.Symlink(srcDir, dstDir); err != nil {
-		return err
-	} else {
-		return nil
-	}
+	err = os.Symlink(srcDir, dstDir)
+	msg := fmt.Sprintf("Create symbolic link from %s to %s", srcDir, dstDir)
+	PrintResult(msg, err)
+	return err
 }
