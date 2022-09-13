@@ -3,6 +3,7 @@
 package app
 
 import (
+	"os"
 	"path/filepath"
 	"testing"
 
@@ -10,6 +11,10 @@ import (
 )
 
 func TestInstallMas(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skip("Skipping testing in CI environment")
+	}
+
 	if err := installMas(); err != nil {
 		t.Fatal(err)
 	}
@@ -19,6 +24,10 @@ func TestInstallMas(t *testing.T) {
 }
 
 func TestInstallBandwidthPlus(t *testing.T) {
+	if os.Getenv("CI") != "" {
+		t.Skip("Skipping testing in CI environment")
+	}
+
 	if err := installBandwidthPlus(); err != nil {
 		t.Fatal(err)
 	}
