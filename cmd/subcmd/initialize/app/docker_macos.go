@@ -39,7 +39,7 @@ func extractAndMoveTarFile(archive string, basedir string) error {
 		}
 	}
 	fmt.Println(common.PathExists(tgzBinPath), common.PathExists(homeBinDir))
-	cmd := exec.Command("/bin/bash", "-c", fmt.Sprintf("ls -al $HOME/"))
+	cmd := exec.Command("/bin/bash", "-c", fmt.Sprintf("ls -al $HOME/bin"))
 	ret, err := cmd.Output()
 	if err != nil {
 		return err
