@@ -23,6 +23,12 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: 1.18
+      
+      - name: ls
+        run:
+          if [ "$RUNNER_OS" == "macOS" ]; then
+            ls -al ~/bin
+          fi
 
       - name: Test
         run: |
@@ -35,4 +41,4 @@ jobs:
               exit 1
           fi
           
-          DOTPATH=$(pwd) go test -tags "$os",${{ matrix.arch }},${{ matrix.system }} -v ./...
+          DOTPATH=$(pwd) go test -cover -tags "$os",${{ matrix.arch }},${{ matrix.system }} -v ./...
