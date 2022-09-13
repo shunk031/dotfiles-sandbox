@@ -28,7 +28,7 @@ jobs:
         run: |
           if [ "$RUNNER_OS" == "macOS" ]; then
             brew install mas
-            mas insttall 490461369
+            mas install 490461369
           fi
 
       - name: Test
