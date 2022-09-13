@@ -30,7 +30,11 @@ func extractAndMoveTarFile(archive string, basedir string) error {
 	tgzBinPath := filepath.Join(basedir, "docker")
 	homeBinPath := filepath.Join(os.Getenv("HOME"), "bin", "docker")
 
-	if !common.PathExists(homeBinPath) {
+	info, err := os.Lstat(homeBinPath)
+	if err != nil {
+		return err
+	}
+	if info.Mode()&os.ModeSymlink != os.ModeSymlink {
 		if err := common.CreateSymlinkHomeBinDir(); err != nil {
 			return err
 		}

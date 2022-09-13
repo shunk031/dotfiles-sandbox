@@ -10,7 +10,7 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
-func deployDotFiles(dotFileType string) error {
+func runDeploy(dotFileType string) error {
 	dotPath, err := common.GetDotPath()
 	if err != nil {
 		return err
@@ -38,16 +38,6 @@ func deployDotFiles(dotFileType string) error {
 	return nil
 }
 
-func runDeploy(dotFileType string) error {
-	if err := deployDotFiles(dotFileType); err != nil {
-		return err
-	}
-	if err := common.CreateSymlinkHomeBinDir(); err != nil {
-		return err
-	}
-	return nil
-}
-
 func RunDeployCmd() error {
 
 	common.PrintInPurple("\n• Create symbolic links\n")
@@ -55,5 +45,8 @@ func RunDeployCmd() error {
 	if err := runDeployCommon(); err != nil {
 		return err
 	}
+	// if err := common.CreateSymlinkHomeBinDir(); err != nil {
+	// 	return err
+	// }
 	return runDeploySystem()
 }
