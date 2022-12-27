@@ -28,3 +28,14 @@ func AptInstall(pkgReadableName string, pkg string, opts AptOpts) error {
 		return nil
 	}
 }
+
+func AptPurge(pkgReadableName string, pkg string, opts AptOpts) error {
+	if AptPackageIsInstalled(pkg) {
+		msg := pkgReadableName
+		cmd := fmt.Sprintf("sudo apt-get purge -y %s %s", opts.ExtraArgs, pkg)
+		return Execute(msg, cmd)
+	} else {
+		printSuccess(pkgReadableName)
+		return nil
+	}
+}

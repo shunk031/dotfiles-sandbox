@@ -10,9 +10,7 @@ RUN apt-get update && \
     git \
     sudo \
     build-essential \
-    ca-certificates && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    ca-certificates
 
 RUN groupadd --gid $USER_GID $USERNAME \
     && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME\

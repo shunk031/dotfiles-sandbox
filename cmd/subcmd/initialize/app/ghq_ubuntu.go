@@ -11,18 +11,19 @@ import (
 )
 
 func InstallGhq() error {
-	common.PrintInPurple("\n   Install ghq\n")
+	common.PrintInPurple("\n   Install ghq\n\n")
 
-	msg := "ghq"
-	cmd := "go install github.com/x-motemen/ghq@latest"
-	if err := common.Execute(msg, cmd); err != nil {
+	err := common.Execute("ghq", "go install github.com/x-motemen/ghq@latest")
+	if err != nil {
 		return err
 	}
 
 	ghqDir := filepath.Join(os.Getenv("HOME"), "ghq")
-	cmd = fmt.Sprintf("mkdir -p %s", ghqDir)
-	if err := common.ExecuteCmd(cmd); err != nil {
+	cmd := fmt.Sprintf("mkdir -p %s", ghqDir)
+	err = common.ExecuteCmd(cmd)
+	if err != nil {
 		return err
+	} else {
+		return nil
 	}
-	return nil
 }
