@@ -10,20 +10,23 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
+func installGhq() error {
+	msg := "ghq command"
+	cmd := "go install github.com/x-motemen/ghq@latest"
+	return common.Execute(msg, cmd)
+}
+
+func mkdGhq() error {
+	ghqDir := filepath.Join(os.Getenv("HOME"), "ghq")
+	cmd := fmt.Sprintf("mkdir -p %s", ghqDir)
+	return common.ExecuteCmd(cmd)
+}
+
 func InstallGhq() error {
 	common.PrintInPurple("\n   Install ghq\n\n")
 
-	err := common.Execute("ghq", "go install github.com/x-motemen/ghq@latest")
-	if err != nil {
+	if err := installGhq(); err != nil {
 		return err
 	}
-
-	ghqDir := filepath.Join(os.Getenv("HOME"), "ghq")
-	cmd := fmt.Sprintf("mkdir -p %s", ghqDir)
-	err = common.ExecuteCmd(cmd)
-	if err != nil {
-		return err
-	} else {
-		return nil
-	}
+	return mkdGhq()
 }
