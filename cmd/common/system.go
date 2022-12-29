@@ -64,14 +64,15 @@ func ExecuteCmd(cmd string) error {
 
 	c := exec.Command(SHELL, "-c", cmd)
 
-	var out bytes.Buffer
+	var stdout bytes.Buffer
 	var stderr bytes.Buffer
-	c.Stdout = &out
+	c.Stdout = &stdout
 	c.Stderr = &stderr
 
 	err := c.Run()
 	if err != nil {
-		return errors.New(fmt.Sprintf("command %s; %s", cmd, fmt.Sprint(err)))
+		errStr := fmt.Sprintf("Command %s failed: %v\n%v\n", cmd, err, stderr.String())
+		return errors.New(errStr)
 	} else {
 		return nil
 	}
@@ -161,12 +162,8 @@ func SymlinkExists(p string) (bool, error) {
 }
 
 func CmdExists(c string) bool {
-	cmd := exec.Command("/bin/bash", "-c", "command", "-v", c)
-	if err := cmd.Run(); err != nil {
-		log.Println(err)
-		return false
-	}
-	return true
+	_, err := exec.LookPath(c)
+	return err == nil
 }
 
 func Extract(archive string, outputDir string) error {
