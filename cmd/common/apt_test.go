@@ -28,6 +28,7 @@ func TestAptInstall(t *testing.T) {
 }
 
 func TestAptPurge(t *testing.T) {
+	// test if the installed package
 	if err := AptInstall("sl", "sl", AptOpts{}); err != nil {
 		t.Fatal(err)
 	}
@@ -36,5 +37,10 @@ func TestAptPurge(t *testing.T) {
 	}
 	if AptPackageIsInstalled("sl") {
 		t.Fatal("Test failed")
+	}
+
+	// test if the purged package
+	if err := AptPurge("sl", "sl", AptOpts{}); err != nil {
+		t.Fatal(err)
 	}
 }
