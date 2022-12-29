@@ -2,6 +2,7 @@ package app
 
 import (
 	"errors"
+	"log"
 	"os"
 	"path/filepath"
 	"testing"
@@ -9,12 +10,24 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
-func TestInstallFzf(t *testing.T) {
-	InstallFzf()
+func cleanupForFzf() {
+	if common.CmdExists("fzf") {
 
-	if !common.CmdExists("fzf") {
-		t.Fatal("Command not found: fzf")
+		fzfDir := filepath.Join(os.Getenv("HOME"), ".fzf")
+		uninstallCmd := filepath.Join(fzfDir, "uninstall")
+
+		err := common.ExecuteCmd(uninstallCmd)
+		if err != nil {
+			log.Fatal(err)
+		}
 	}
+}
+
+func TestInstallFzf(t *testing.T) {
+
+	cleanupForFzf()
+
+	InstallFzf()
 
 	expectedFzfDirPath := filepath.Join(os.Getenv("HOME"), ".fzf")
 	if _, err := os.Stat(expectedFzfDirPath); errors.Is(err, os.ErrNotExist) {
