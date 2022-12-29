@@ -45,8 +45,8 @@ func RunDeployCmd() error {
 	if err := runDeployCommon(); err != nil {
 		return err
 	}
-	// if err := common.CreateSymlinkHomeBinDir(); err != nil {
-	// 	return err
-	// }
+	if err := common.CreateSymlinkHomeBinDir(); err != nil {
+		return err
+	}
 	return runDeploySystem()
 }
