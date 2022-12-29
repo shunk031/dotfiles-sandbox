@@ -8,6 +8,10 @@ import (
 	"github.com/shunk031/dotfiles/cmd/common"
 )
 
+func installMas() error {
+	return common.BrewInstall("mas", "mas", common.BrewOpts{})
+}
+
 func runMasInstall(appId string, appName string) error {
 	cmd := fmt.Sprintf("mas install %s", appId)
 	msg := fmt.Sprintf("Install %s", appName)
@@ -24,7 +28,9 @@ func InstallMacAppFromStore() error {
 	common.PrintInPurple("\n   Install apps from Mac App Store\n")
 
 	// install mas (Mac App Store command line interface)
-	common.BrewInstall("mas", "mas", common.BrewOpts{})
+	if err := installMas(); err != nil {
+		return err
+	}
 
 	// install apps
 	return installBandwidthPlus()
