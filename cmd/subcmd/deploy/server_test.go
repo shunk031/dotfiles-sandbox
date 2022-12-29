@@ -13,7 +13,7 @@ import (
 )
 
 func TestRunDeploySystem(t *testing.T) {
-	runDeployCommon()
+
 	runDeploySystem()
 
 	dotPath, err := common.GetDotPath()
@@ -53,9 +53,9 @@ func TestRunDeploySystem(t *testing.T) {
 		t.Fatalf("# of dotfiles for server is %d. But found %d.", actualNumServerDotFiles, numServerDotFiles)
 	}
 
-	// common dotfiles + server dotfiles + the symbolic link of ~/bin
-	numMyDotFiles := numCommonDotFiles + numServerDotFiles + 1
-	actualNumMyDotFiles := 5
+	// common dotfiles + server dotfiles
+	numMyDotFiles := numCommonDotFiles + numServerDotFiles
+	actualNumMyDotFiles := 4
 	if numMyDotFiles != actualNumMyDotFiles {
 		t.Fatalf("# of my dotfiles is %d. But found %d.", actualNumMyDotFiles, numMyDotFiles)
 	}
